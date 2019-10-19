@@ -34,7 +34,7 @@ bot.on("message", async message => {
 
     if(command === `${prefix}userinfo`) {
 
-        let embed = new Discord.RichEmbed()
+        let embed = new Discord.RichEmbed();
         
 
         if (bargs[0]) {
@@ -94,8 +94,41 @@ bot.on("message", async message => {
 
 	return bot.users.get(id);   
     }
-    
 
+
+    if(command === `${prefix}wikipedia`) {
+        if(messageArray[1]) {            
+                const wikipedia = "https://en.wikipedia.org/wiki/";
+                let word = messageArray[1];
+                let search = `${wikipedia}`+`${word}`;
+                message.channel.send(search);
+
+        } else {
+            return message.reply(`Invalid Request ${message.author.username}`);
+        }
+
+        return;
+    }
+
+    if(command === `${prefix}youtube`) {
+        if(messageArray[1]) {            
+            const YouTube = require("discord-youtube-api");
+ 
+            const youtubekey = new YouTube("AIzaSyDmT2mxmlhfI5jIrNp3ggQZI8Woj8xC53o");
+             
+                let word = message.content.slice(8);
+                let get = await youtubekey.searchVideos(word);
+                let rec = get.url;
+                message.channel.send(rec);
+
+        } else {
+            return message.reply(`Invalid Request ${message.author.username}`);
+        }
+
+        return;
+    }
+
+    
    
    
 });

@@ -9,6 +9,8 @@
   "author": "Femi",
   "license": "ISC",
   "dependencies": {
+    "discord-api": "0.0.1",
+    "discord-youtube-api": "^0.1.0",
     "discord.js": "^11.5.1"
   }
 }
