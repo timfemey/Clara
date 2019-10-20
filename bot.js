@@ -15,6 +15,8 @@ bot.on("ready", async () => {
     } catch (e) {
         console.log(e.stack);        
     }
+
+    bot.user.setStatus("online");
    
 });
 
@@ -99,7 +101,10 @@ bot.on("message", async message => {
     if(command === `${prefix}wikipedia`) {
         if(messageArray[1]) {            
                 const wikipedia = "https://en.wikipedia.org/wiki/";
-                let word = messageArray[1];
+                let word = message.content.slice(11);
+                if(word.match(/\s/)) {
+                    word = word.replace(/\s/, "_");
+                }
                 let search = `${wikipedia}`+`${word}`;
                 message.channel.send(search);
 
@@ -128,7 +133,22 @@ bot.on("message", async message => {
         return;
     }
 
-    
+    if(command === `${prefix}twitter`){
+       if(messageArray[1]) {
+        const twitter = "https://twitter.com/";
+        let word = message.content.slice(9);
+        if(word.match(/\s/)) {
+            word = word.replace(/\s/, "");
+        }
+        let search = `${twitter}`+`${word}`;
+        message.channel.send(search);
+       } else {
+           return message.reply(`Invalid Request ${message.author.username}`);
+       }
+
+       return;
+    } 
+
    
    
 });
