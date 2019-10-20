@@ -8,9 +8,13 @@
 </head>
 <body>
     <script>
-        let message= "Hello World";
+        let message= "Hello World Everyone";
         let met = message.slice(1);
-        let meet = message.slice(5);
+        let meet = message.slice(6);
+        if(message.match(/\s/)){
+            let mets = message.replace(/\s/g, "");
+            console.log(mets);
+        }
         console.log(met);
         console.log(meet);
     </script>    

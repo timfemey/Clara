@@ -103,7 +103,7 @@ bot.on("message", async message => {
                 const wikipedia = "https://en.wikipedia.org/wiki/";
                 let word = message.content.slice(11);
                 if(word.match(/\s/)) {
-                    word = word.replace(/\s/, "_");
+                    word = word.replace(/\s/g, "_");
                 }
                 let search = `${wikipedia}`+`${word}`;
                 message.channel.send(search);
@@ -138,7 +138,7 @@ bot.on("message", async message => {
         const twitter = "https://twitter.com/";
         let word = message.content.slice(9);
         if(word.match(/\s/)) {
-            word = word.replace(/\s/, "");
+            word = word.replace(/\s/g, "");
         }
         let search = `${twitter}`+`${word}`;
         message.channel.send(search);
