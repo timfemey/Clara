@@ -3,6 +3,7 @@ const Discord = require("discord.js");
 const prefix = botSettings.prefix;
 
 const bot= new Discord.Client({disableEveryone: true});
+const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 
 
@@ -149,14 +150,57 @@ bot.on("message", async message => {
        return;
     } 
 
+    if(command === `${prefix}wordoftheday`) {
+        if (messageArray[1]) return;
+        const dayword = "https://www.merriam-webster.com/word-of-the-day";
+        message.channel.send(dayword);
+        
+    }
+
+    if(command === `${prefix}define`) {
+        const dict = "https://www.merriam-webster.com/dictionary/";
+        if(messageArray[1]){
+            let word = message.content.slice(8);
+            if(word.match(/\s/)) {
+                word = word.replace(/\s/g, "%20");
+            }
+            let search = `${dict}`+`${word}`;
+            message.channel.send(search);
+        } else {
+            return message.channel.reply("What word do you want me to define?");
+        }
+
+        return;
+    }
+
+    var getJSON = function(url, callback) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.responseType = 'json';
+        xhr.onload = function() {
+          var status = xhr.status;
+          if (status === 200) {
+            callback(null, xhr.response);
+          } else {
+            callback(status, xhr.response);
+          }
+        };
+        xhr.send();
+    };
+
+    if(command === `${prefix}joke`) {
+        const joke = "https://icanhazdadjoke.com/";
+        message.channel.send(joke);
+    }
+
    
    
 });
 
-bot.on('guildMemberAdd', async member => {
-    let welcome = member.guild.channels.find(ch => ch.name === 'welcome');
+bot.on("guildMemberAdd", async member => {
+    const welcome = member.guild.channels.find(ch => ch.name === 'welcome');
     if (!welcome) return;
-    channel.send(`Welcome to the server, ${member}`);
+    welcome.send(`Welcome to the server, ${member}`);
 });
 
 
