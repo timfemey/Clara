@@ -193,6 +193,19 @@ bot.on("message", async message => {
         message.channel.send(joke);
     }
 
+    if(command === `${prefix}command`){
+        let embed = new Discord.RichEmbed()
+         .setDescription("!joke = Need a Joke")
+         .setDescription("!define small = defines the word small you can replace small with any word you want")
+         .setDescription("!wordoftheday = your daily word of the day")
+         .setDescription("!twitter = Fetches info a particular twitter user by inputing their username e.g. !twitter Justin Bieber")
+         .setDescription("!youtube = Searches for a video e.g !youtube PUBG Trailer")
+         .setDescription("!wikipedia = Searches for a Wikipedia article e.g. !wikipedia Man")
+         .setDescription("!userinfo = Gets Userinfo of the sender or another mentioned user e.g. !userinfo @Clara ")
+         .setDescription("!avatar = Gets avatar of the sender or another mentioned user e.g.!avatar or !avatar @Clara");         
+        message.channel.send(embed);
+    }
+
    
    
 });
