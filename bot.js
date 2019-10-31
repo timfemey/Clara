@@ -6,6 +6,8 @@ const cheerio = require('cheerio');
 const numberfact = require('numbersapi');
 const anilistnode = require('anilist-node');
 const anilist = new anilistnode();
+const malScraper = require('mal-scraper');
+const search = require('yt-search');
 
 
 const bot= new Discord.Client({disableEveryone: false});
@@ -59,6 +61,7 @@ bot.on("message", async message => {
                 .setDescription(`This is ${user}info`)
                 .addField("Username", `${user.username}#${user.discriminator}`)
                 .addField("ID", `${user.id}`)
+                .addField("Status", `${user.presence.status}`)
                 .setThumbnail(`${user.displayAvatarURL}`);
             }
     
@@ -69,6 +72,7 @@ bot.on("message", async message => {
             .setDescription("This is user info")
             .addField("Username", `${message.author.username}#${message.author.discriminator}`)
             .addField("ID", `${message.author.id}`)
+            .addField("Status", `${message.author.presence.status}`)
             .setThumbnail(message.author.displayAvatarURL);
         }
 
@@ -95,12 +99,28 @@ bot.on("message", async message => {
         return;
     }
 
+    if(command === `${prefix}server`) {
+            let servlev = ["None", "Low", "Medium", "High", "Max"];
+            let embed = new Discord.RichEmbed()
+              .setAuthor(message.guild.name)
+              .setThumbnail(message.guild.iconURL())
+              .addField('Owner:', message.guild.owner.user.tag, true)
+              .addField('ID:', message.guild.id, true)
+              .addField('Members Count:', message.guild.members.filter(mem => mem.user.bot === true).size, true)
+              .addField('Online:', message.guild.members.filter(mem => mem.presence.status != "offline").size, true)
+              .addField('Verification Level:', servlev[message.guild.verificationLevel])
+              .addField('Server Region:', message.guild.region, true)
+              .addField(`Role List [${m.guild.roles.size - 1}]`, message.guild.roles.map(r => r).join(" ").replace("@everyone", " "));
+              message.channel.send(embed);
+        
+    }
+
     function getUserFromMention(mention) {
         	
 	let matches = mention.match(/^<@!?(\d+)>$/);
 
 	// If supplied variable was not a mention, matches will be null instead of an array.
-	if (!matches) return;
+	if (!matches) return message.reply("Not a Mention");
 
 	// However the first element in the matches array will be the entire mention, not just the ID,
 	// so use index 1.
@@ -240,7 +260,7 @@ bot.on("message", async message => {
 
     if(command === `${prefix}help`){
         let embed = new Discord.RichEmbed()
-         .setDescription("!define small = defines the word small you can replace small with any word you want \n !twitter = Fetches info a particular twitter user by inputing their username e.g. !twitter Justin Bieber \n !youtube = Searches for a video e.g !youtube PUBG Trailer \n !wiki = Searches for a Wikipedia article e.g. !wiki Man \n !userinfo = Gets Userinfo of the sender or another mentioned user e.g. !userinfo @Clara \n !avatar = Gets avatar of the sender or another mentioned user e.g.!avatar or !avatar @Clara \n !channel = Gives info of the current channel \n !numberfact = Gives a fact about a random number or a given number e.g. !numberfact or !numberfact 7 \n !meme = Generates a random meme \n  !image = Generates a random image." );        
+         .setDescription("!server To see server info \n !aninews Gives Latest Anime News  \n !anime Gives info about an anime e.g. !anime Fairy Tail \n !prefix Changes the prefix been used e.g. !prefix : !define small = defines the word small you can replace small with any word you want \n !twitter = Fetches info a particular twitter user by inputing their username e.g. !twitter Justin Bieber \n !youtube = Searches for a video e.g !youtube PUBG Trailer \n !wiki = Searches for a Wikipedia article e.g. !wiki Man \n !userinfo = Gets Userinfo of the sender or another mentioned user e.g. !userinfo @Clara \n !avatar = Gets avatar of the sender or another mentioned user e.g.!avatar or !avatar @Clara \n !channel = Gives info of the current channel \n !numberfact = Gives a fact about a random number or a given number e.g. !numberfact or !numberfact 7 \n !meme = Generates a random meme \n  !image = Generates a random image." );        
         message.channel.send(embed);
     }
 
@@ -259,7 +279,7 @@ bot.on("message", async message => {
 
     if(command === `${prefix}meme`){
         const randomPuppy = require('random-puppy');
-        const subReddits = ["meme", "me_irl", "darkmeme"];
+        const subReddits = ["meme", "me_irl", "darkmeme", "Animemes", "gamingmemes"];
         let random = subReddits[Math.floor(Math.random()*subReddits.length)];
         let load = 'https://media.giphy.com/media/131tNuGktpXGhy/giphy.gif';
         let embed = new Discord.RichEmbed().setImage(load);
@@ -293,7 +313,46 @@ bot.on("message", async message => {
             message.reply("What Anime are you searchin for?");
         }
     }
- 
+
+    if(command === `${prefix}aninews`) {
+       if(messageArray[1]) return message.reply("Invalid");   
+       const nbNews = 32;
+
+        malScraper.getNewsNoDetails(nbNews)
+        .then((data) => {
+            let rand = data[Math.floor(Math.random()*data.length)]; 
+            let embed = new Discord.RichEmbed()
+            .setTitle(rand.title)
+            .setURL(rand.link)
+            .setThumbnail(rand.image)
+            .setDescription(rand.text);
+            message.channel.send(embed);
+        })
+        .catch((err) => console.log(err));
+    }
+
+    if(command === `${prefix}search`) {
+        if(!messageArray[1]) return message.reply("Specify what you are searching for?");
+        let word = message.content.slice(8);
+        search(word, function(err, res){
+            if(err) return message.reply("An Error Occured");
+            let videos = res.videos.slice(0, 10);
+            let resp = '';
+            for(var i in videos) {
+                resp += `[${parseInt(i)+1}]: \`${videos[i].title}\`\n`; 
+            }
+            resp += `\n Choose a number between \`1-${videos.length}\``;
+            message.channel.send(resp);
+
+            let filter = m => !isNaN(m.content) && m.content < videos.length+1 && m.content > 0;
+            let collector = message.channel.createMessageCollector(filter);
+            collector.videos = videos;
+            collector.once('collect', function(m){
+                let commandFile = require('./play.js');
+                commandFile.run(new Discord.Client, message, [this.videos[parseInt(m.content)-1].url]);
+            })
+        })
+    } 
 
    
 });
