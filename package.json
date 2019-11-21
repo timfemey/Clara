@@ -5,7 +5,7 @@
   "main": "bot.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "preinstall": "npm install node-pre-gyp"
+    "preinstall": "node-pre-gyp install --fallback-to-build" 
   },
   "engines": {
     "node": "12.13.0",
@@ -31,3 +31,4 @@
     "request": "^2.88.0"
   }
 }
+

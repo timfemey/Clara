@@ -523,6 +523,14 @@ bot.on("message", async message => {
                 used.delete(message.author.id)
             }, 14000);
         }
+        if(used.has(7)) {
+            return message.reply('A Poll Space is full, Three Polls are Ongoing')
+        } else {
+            used.add(7);
+            setTimeout(() => {
+                used.delete(7)
+            }, 3600003);
+        }
         let infoembed = new Discord.RichEmbed()
           .setColor('#92A8D1')
           .setTitle('Initiate Poll')
@@ -533,6 +541,7 @@ bot.on("message", async message => {
             infoembed = new Discord.RichEmbed()
               .setColor('#92A8D1')
               .setTitle('Poll')
+              .setFooter(`Polls Last for Only 1 Hour`)
               .setDescription(`⚔️ ${messageArray[1]} VS ${messageArray[3]}`)
               .addField('Options', `React 🏳️ for ${messageArray[1]}, React  for 🏴 for ${messageArray[3]} and React 🎌 for Draw or both`)
               let v1 = messageArray[1];
@@ -545,16 +554,16 @@ bot.on("message", async message => {
               await msg.react(agre)
               await msg.react(agree)
               const filter = reaction => reaction.emoji.name === agr; 
-              msg.awaitReactions(filter, {time: 15000}).then(collected => {
+              msg.awaitReactions(filter, {time: 3600000}).then(collected => {
                   message.channel.send(`🗳️ Polls are Over`);
                   message.channel.send(`${v1}: ${collected.size} Votes`)
               })
               const tefilter = reaction => reaction.emoji.name === agre; 
-              msg.awaitReactions(tefilter, {time: 15000}).then(collected => {
+              msg.awaitReactions(tefilter, {time: 3600000}).then(collected => {
                   message.channel.send(`${v2}: ${collected.size} Votes`)
               })
               const teefilter = reaction => reaction.emoji.name === agree; 
-              msg.awaitReactions(teefilter, {time: 15000}).then(collected => {
+              msg.awaitReactions(teefilter, {time: 3600000}).then(collected => {
                   message.channel.send(`Draw/Both: ${collected.size} Votes`)
               })
                 
@@ -563,6 +572,14 @@ bot.on("message", async message => {
         }
              
         
+    }
+
+    if(command === `${prefix}checkpoll`) {
+        if(used.has(7)) {
+            message.channel.send(`Poll is Ongoing`)
+        } else {
+            message.channel.send(`No Poll Ongoing`)
+        }
     }
 
     //Reminder 
