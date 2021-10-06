@@ -1,14 +1,19 @@
 const botSettings = require("./botsettings.json");
-const Discord = require("discord.js");
+const Discord = require("v11-discord.js");
 var prefix = botSettings.prefix;
 const fs = require('fs');
 let color = botSettings.color;
 let used = new Set();
-let ecoBot = require(`discord-economy`)
+//let ecoBot = require(`discord-economy`)
 //Clara
+//const { Client, Intents } = require("discord.js");
+
+/*const bot = new Client({
+  intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
+});*/
 
 
-const bot = new Discord.Client({disableEveryone: false});
+const bot = new Discord.Client({disableEveryone:false});
 
 bot.commands = new Discord.Collection();
 bot.categories = fs.readdirSync("./commands/");
@@ -48,7 +53,7 @@ bot.on("message", async message => {
     if(message.author.bot) return;
     let messageArray = message.content.split(" ");
     let command = messageArray[0];
-    if(message.guild) {
+    /*if(message.guild) {
         let xp = Math.floor(Math.random() * 50)
         let bal = await ecoBot.FetchBalance(message.author.id)
         if(bal.balance === 0) {
@@ -58,7 +63,7 @@ bot.on("message", async message => {
        
         
 
-    }
+    }*/
     if(!command.startsWith(prefix)) return;
     let args = messageArray.slice(1);
     const withoutPrefix = message.content.slice(prefix.length);
@@ -81,8 +86,8 @@ bot.on("message", async message => {
     let cmd = bot.commands.get(command.slice(1));
     if(cmd) {
         cmd.run(bot, message, args, messageArray, bargs, Discord, color, used, getUserFromMention);  
-        message.channel.send(`A Command Subtracts 20 credits from Balance`).then(msg => msg.delete(5000)) 
-        ecoBot.SubtractFromBalance(message.author.id, 20)
+        //message.channel.send(`A Command Subtracts 20 credits from Balance`).then(msg => msg.delete(5000)) 
+        //ecoBot.SubtractFromBalance(message.author.id, 20)
     } 
 });
 
@@ -92,9 +97,10 @@ bot.on("guildMemberAdd", async member => {
     welcome.send(`Welcome to the server, ${member}`);
 });
 
+/*
 bot.on('guildMemberRemove', async member => {
     await ecoBot.Delete(member.id)
-})
+})*/
 
 
 
