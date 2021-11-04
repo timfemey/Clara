@@ -53,6 +53,8 @@ module.exports = {
             .setFooter(`Replying to ${message.author.username}#${message.author.discriminator}`)
             .setThumbnail(message.author.displayAvatarURL);
         }
+
+        message.channel.send(embed);
          
 
 

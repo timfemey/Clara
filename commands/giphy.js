@@ -6,14 +6,7 @@ module.exports = {
     description: `Gets GIF of a given search`,
     example: `!giphy.js Laughing`,
     run: async (bot, message, args, messageArray, bargs, Discord, color, used, getUserFromMention) => {
-        if(used.has(message.author.id)) {
-            return message.reply('Cooldown!! 13s')
-        } else {
-            used.add(message.author.id);
-            setTimeout(() => {
-                used.delete(message.author.id)
-            }, 14000);
-        }
+      
         var giphy_config = {
             "api_key": "GVlG2tKzkNz6qqY0UmiNIzGAVXZpPASE",
             "rating": "r",

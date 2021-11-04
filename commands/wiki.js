@@ -25,11 +25,14 @@ module.exports = {
                     var sumText = summary.toString().split(`\n`)
                     var continuation = function() {
                         var paragraph = sumText.shift();
+                        paragraph=paragraph.slice(0,877);
+
                         if(paragraph) {
                             let embed = new Discord.RichEmbed()
                             .setColor(color)
                             .setTitle(`${word}`)
-                            .addField(`Summary:`, `${paragraph}`);
+                            .addField(`Summary:`, `${paragraph}`)
+                            .addField(`Read more in Wikipedia`);
                             message.channel.send(embed);
                             //message.channel.send(paragraph, continuation);
                         }

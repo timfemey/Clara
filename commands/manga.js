@@ -16,8 +16,9 @@ module.exports = {
                 used.delete(message.author.id)
             }, 14000);
         }
-        if(!messageArray[1]) message.reply("What Manga are you searchin for?");
         let word = message.content.slice(10);
+        if(!messageArray[1]) return message.reply("What Manga are you searchin for?");
+        
         let get = await anilist.search('manga', word, 1, 2).then((data) => { return data.media[0].id })
         let res = await anilist.media.manga(get).then(data => {return data});
         let load = 'https://media.giphy.com/media/131tNuGktpXGhy/giphy.gif';

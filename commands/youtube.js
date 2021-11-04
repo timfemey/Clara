@@ -17,16 +17,22 @@ module.exports = {
         }
         if(messageArray[1]) {            
             const YouTube = require("discord-youtube-api");
- 
-            const youtubekey = new YouTube(settings.youtubekey);
-             
-                let word = message.content.slice(11);
-                let get = await youtubekey.searchVideos(word);
 
-                message.channel.send(`${get.url}`)
+            var youTube = new YouTube(settings.youtubekey);
+
+            let word = message.content.slice(11);
+
+             let get = await youTube.searchVideos(word);
+
+            message.channel.send(get.url)
+            
+             
+;
+ 
+             
 
         } else {
-            return message.reply(`Invalid Request `);
+            return message.reply(`Invalid Request, provide a search term `);
         }
 
        

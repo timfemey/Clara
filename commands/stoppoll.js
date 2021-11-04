@@ -10,7 +10,7 @@ module.exports = {
         if(poll.stopright.has(message.author.id)) {
             poll.stopright.get(message.author.id).stop()
             poll.stopright.delete(message.author.id)
-            poll.detail.delete(message.channel.id)
+            poll.stopright.delete(message.channel.id)
             message.reply(`*Poll has been stopped successfully*`)
         } else {
             message.reply(`You dont have a Poll Going on`)
