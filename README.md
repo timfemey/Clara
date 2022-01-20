@@ -1,8 +1,8 @@
 # Clara
-A discord bot created by Obafemi Ishola
+A discord bot created by Obafemi Ishola <br/>
 
-Made with Node.js 
-Reuired Node JS Modules
+Made with Node.js <br/>
+Reuired Node JS Modules <br/>
 "anilist-node": "^1.9.1",
     "axios": "^0.24.0",
     "cheerio": "^1.0.0-rc.10",
