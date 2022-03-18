@@ -5,8 +5,8 @@ Made with Node.js <br/>
 
 <p>To run this on your PC;</p>
 <ul>
-    <li>Clone this using `git clone gihub_repo_url`</li>
-    <li>Run `npm install` on your CLI</li>
+    <li>Clone this using <code>git clone gihub_repo_url</code></li>
+    <li>Run <code>npm install</code> on your CLI</li>
     <li>Link your Discord Bot API key on botsettings.json</li>
-    <li>Run `node bot.js` on your CLI</li>
+    <li>Run <code>node bot.js</code> on your CLI</li>
 </ul>
