@@ -1,6 +1,8 @@
 # Clara
 A discord bot created by Obafemi Ishola <br/>
 
+[![clara.gif](https://s10.gifyu.com/images/clara.gif)](https://gifyu.com/image/SpMNZ)
+
 Made with Node.js <br/>
 
 <p>To run this on your PC;</p>
