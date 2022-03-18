@@ -8,5 +8,5 @@ Made with Node.js <br/>
     <li>Clone this using `git clone gihub_repo_url`</li>
     <li>Run `npm install` on your CLI</li>
     <li>Link your Discord Bot API key on botsettings.json</li>
-    <li>Run `node index.js` on your CLI</li>
+    <li>Run `node bot.js` on your CLI</li>
 </ul>
